@@ -10,7 +10,8 @@ function getNodeType(){
 	for (var i = 0; i < childNodes.length; i++) {
 		type += childNodes[i].nodeType + "\n";
 	};
-	alert(type);
+	
 }
 //window.onload = countBodyChildren;
-window.onload = getNodeType;
+//window.onload = getNodeType;
+//window.open("http://www.baidu.com","popup","width=320, height=480");

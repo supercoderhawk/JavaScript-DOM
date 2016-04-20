@@ -3,24 +3,28 @@
 <head>
 	<meta charset="UTF-8">
 	<title>picShow</title>
+	<link rel="stylesheet" type="text/css" href="layout.css">
 </head>
 <body>
 	<h1>Show Pictures</h1>
-	<ul>
+	<ul id="img">
 		<li>
-			<a href="img/1.jpg" onclick="showPic(this);return false;" title="picture 1">1</a>
+			<a href="img/1.jpg" title="picture 1">1</a>
 		</li>
 		<li>
-			<a href="img/2.jpg" onclick="showPic(this);return false;" title="picture 2">2</a>
+			<a href="img/2.jpg" title="picture 2">2</a>
+		</li>
+		<li>
+			<a href="img/3.jpg" title="picture 3">3</a>
 		</li>
 	</ul>
 	<img id="holder" src="img/8.jpg" alt="picure 8"/>
 	<p>
 		<!--<a href="http://www.baidu.com" onclick="return false">百度</a>-->
 	</p>
-	
+	<p id="description">Choose a picture.</p>
 </body>
 <script type="text/javascript" src="showPic.js"></script>
 <script type="text/javascript" src="countBodyChildren.js"></script>
-<script type="text/javascript" src=""></script>
+<script type="text/javascript" src="prepareImage.js"></script>
 </html>
