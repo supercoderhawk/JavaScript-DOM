@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html lang="zh">
+<head>
+	<meta charset="utf-8"/>
+	<title>This is a test</title>
+	<style type="text/css">
+		p{
+			color:grey;
+			background: pink;
+			width:5cm;
+			font-size:20pt;
+			
+		}
+		#AS li{
+			font-weight:bold;
+			
+		}
+	</style>
+	
+</head>
+<body>
+	<h1>This is title</h1>
+	<p>This is a Test.</p>
+	<p title="tt">test</P>
+	<ul id="AS">
+		<li>A</li>
+		<li>B</li>
+		<li>C</li>
+	</ul>
+	
+	<script>
+		var n = document.getElementById("AS");
+		//alert(typeof n);
+		var items = n.getElementsByTagName("*");
+		var param = document.getElementsByTagName("p");
+		for(var i = 0; i < param.length; i++){
+			var text = param[i].getAttribute("title");
+			//alert(text);
+			//alert(items[i]);
+		}
+	</script>
+</body>
+</html>
