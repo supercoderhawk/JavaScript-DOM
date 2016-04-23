@@ -31,3 +31,11 @@ img{
 	display: block;
 	clear: both;
 }
+
+#img{
+	list-style: none;
+}
+
+#img li{
+	display:inline;
+}
