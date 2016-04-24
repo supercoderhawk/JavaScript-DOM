@@ -1,10 +1,16 @@
 function displayCSSProperty () {
 	var example = document.getElementById('example');
-	var color = example.style.color;
-	alert(color);
+	
+	example.style.color = 'pink';
+	
+	
 }
 
 addLoadEvent(displayCSSProperty);
+
+function styleHeaderSiblings(){
+	if(!)
+}
 
 function addLoadEvent(func){
 	var oldonload = window.onload;
