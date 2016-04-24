@@ -9,7 +9,30 @@ function displayCSSProperty () {
 addLoadEvent(displayCSSProperty);
 
 function styleHeaderSiblings(){
-	if(!)
+	if(!document.getElementsByTagName) return false;
+	var headers = document.getElementsByTagName("h1");
+	var elem;
+	for (var i = 0; i < headers.length; i++) {
+		elem = getNextElement(headers[i].nextSibling);
+		elem.style.color = 'pink';
+		elem.style.fontWeight = "bold";
+		elem.style.fontSize = "1.2em";
+	};
+
+
+}
+
+addLoadEvent(styleHeaderSiblings);
+
+//获得节点的下个元素节点
+function getNextElement(node){
+	if (node.nodeType == 1) {
+		return node;
+	};
+	if(node.nextSibling){
+		return getNextElement(node.nextSibling);
+	}
+	return null;
 }
 
 function addLoadEvent(func){

@@ -1,4 +1,4 @@
-#<<JavaScript DOM编程艺术>>编程练习
+#&lt;&lt;JavaScript DOM编程艺术&gt;&gt;编程练习
 ##chapter 2
 基本语法
 ##chapter 3
