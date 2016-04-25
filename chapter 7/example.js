@@ -17,7 +17,7 @@ function testElement(){
 	//文本描述元素
 	var description = document.createElement("p");
 	description.setAttribute("id", "description");
-	var descText = document.createTextNode("This is a text node.\r\n");
+	var descText = document.createTextNode("This is a text node.");
 	description.appendChild(descText);
 	var descBold = document.createElement("b");
 	var descBoldText = document.createTextNode("Bold Node");
