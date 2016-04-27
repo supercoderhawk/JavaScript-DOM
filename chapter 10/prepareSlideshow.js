@@ -37,20 +37,28 @@ function moveElement(elementID, final_x, final_y, interval){
 
 	var xPos = parseInt(elem.style.left);
 	var yPos = parseInt(elem.style.top);
+
+	var dist = 0;
+	var scale = 10;
+
 	if (xPos == final_x && yPos == final_y) {
 		return true;
 	};
 	if (xPos < final_x) {
-		xPos ++;
+		dist = Math.ceil((final_x - xPos)/scale);
+		xPos += dist;
 	}
 	if (xPos > final_x) {
-		xPos --;
+		dist = Math.ceil((xPos - final_x)/scale);
+		xPos -= dist;
 	}
 	if (yPos < final_y) {
-		yPos ++;
+		dist = Math.ceil((final_y - yPos)/scale);
+		yPos += dist;
 	}
 	if (yPos > final_y) {
-		yPos --;
+		dist = Math.ceil((yPos - final_y)/scale);
+		yPos -= dist;
 	}
 	elem.style.top = yPos + "px";
 	elem.style.left = xPos + "px";
