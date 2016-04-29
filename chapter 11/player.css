@@ -1,0 +1,11 @@
+.video-wrapper{
+	overflow: hidden;
+}
+
+.video-wrapper .controls{
+	position: absolute;
+	height: 30px;
+	width: 30px;
+	margin: auto;
+	background: rgba(0,0,0,0.5);
+}
