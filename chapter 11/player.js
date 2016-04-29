@@ -1,17 +1,19 @@
 function createVideoControls(){
 	var vids = document.getElementsByTagName('video');
 	for (var i = 0; i < vids.length; i++) {
-		vids[i]
+		addControls(vids[i]);
 	};
 }
 
 addLoadEvent(createVideoControls);
 
 function addControls(vid){
+
 	vid.removeAttribute('controls');
 
 	vid.height = vid.videoHeight;
 	vid.width = vid.videoWidth;
+	//alert(vid.videoHeight.toString() + "/" + vid.width.toString());
 	vid.parentNode.style.height = vid.videoHeight + 'px';
 	vid.parentNode.style.width = vid.videoWidth + 'px';
 
@@ -19,7 +21,7 @@ function addControls(vid){
 	controls.setAttribute('class', 'controls');
 
 	var play = document.createElement('button');
-	play.setAttribute('tit', 'Play');
+	play.setAttribute('title', 'Play');
 	play.innerHTML = '&#x25BA;';
 
 	controls.appendChild(play);
@@ -32,9 +34,23 @@ function addControls(vid){
 		if(vid.paused){
 			vid.play();
 		}else{
-			vid.parse();
+			vid.pause();
 		}
 	}
+
+	vid.addEventListener('play', function(){
+		play.innerHTML = '&#x2590;&#x2590;';
+		play.setAttribute('paused', true);
+	}, false);
+
+	vid.addEventListener('pause', function(){
+		play.removeAttribute('paused');
+		play.innerHTML = '&#x25BA;';
+	}, false);
+
+	vid.addEventListener('ended', function(){
+		vid.pause();
+	},false);
 }
 
 //将函数添加到onload函数
