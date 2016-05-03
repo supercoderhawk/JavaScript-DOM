@@ -1,3 +1,100 @@
+function prepareGallery(){
+  if(!document.getElementsByTagName) return false;
+  if(!document.getElementById) return false;
+  if(!document.getElementById('imagegallery')) return false;
+   var gallery = document.getElementById('imagegallery');
+   var links = gallery.getElementsByTagName('a');
+   for (var i = 0; i < links.length; i++) {
+     links[i].onclick = function(){
+      return showPic(this);
+     }
+   };
+}
+
+addLoadEvent(prepareGallery);
+
+function preparePlaceholder(){
+  if(!document.createElement) return false;
+  if(!document.createTextNode) return false;
+  if(!document.getElementById) return false;
+  if(!document.getElementById('imagegallery')) return false;
+
+  var placeholder = document.createElement('img');
+  placeholder.setAttribute('id', 'holder');
+  placeholder.setAttribute('src', 'images/placeholder.gif');
+  placeholder.setAttribute('alt', 'my image allery');
+  var description = document.createElement('p');
+  description.setAttribute('id', 'description');
+  var descText = document.createTextNode('Choose an image');
+  description.appendChild(descText);
+  var gallery = document.getElementById('imagegallery');
+  insertAfter(description,gallery);
+  insertAfter(placeholder, description);
+}
+
+addLoadEvent(preparePlaceholder);
+
+function showPic (whichPic) {
+  if(!document.getElementById('holder')) return false;
+  var source = whichPic.getAttribute('href');
+  var holder = document.getElementById('holder');
+  holder.setAttribute('src',source);
+  if(!document.getElementById('description')) return false;
+
+  var text = null;
+  if(whichPic.getAttribute('title')){
+    text = whichPic.getAttribute('title');
+  }else{
+    text = "";
+  }
+
+  if (document.getElementById('description')) {
+    var description = document.getElementById('description');
+    if(description.firstChild.nodeValue == 3){
+      description.firstChild.nodeValue = text;
+    }
+    
+  };
+  return false;
+  
+}
+
+function prepareInternalNav(){
+  if(!document.getElementsByTagName) return false;
+  if(!document.getElementById) return false;
+  var articles = document.getElementsByTagName('article');
+  if(articles.length == 0) return false;
+  var navs = articles[0].getElementsByTagName('nav');
+  if(navs.length == 0)  return false;
+  var nav = navs[0];
+  var links = nav.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    var sectionId = links[i].getAttribute('href').split('#')[1];
+    if(!document.getElementById(sectionId)) continue;
+    document.getElementById(sectionId).style.display = 'none';
+    links[i].destination = sectionId;
+    links[i].onclick = function(){
+      showSection(this.destination);
+      return false;
+    }
+  };
+
+}
+
+addLoadEvent(prepareInternalNav);
+
+function showSection(id){
+  var sections = document.getElementsByTagName('section');
+  for (var i = 0; i < sections.length; i++) {
+    if(sections[i].getAttribute('id') != id){
+      sections[i].style.display = 'none';
+    }else{
+      sections[i].style.display = 'block';
+    }
+  };
+}
+
+//实现幻灯片动画的效果
 function prepareSlideshow(){
   if(!document.getElementsByTagName) return false;
   if(!document.getElementById) return false;
@@ -11,9 +108,11 @@ function prepareSlideshow(){
   preview.setAttribute('src', 'images/slideshow.gif');
   preview.setAttribute('alt', 'a glimpse of what awaits you');
   preview.setAttribute('id', 'preview');
-  //preview.style.position = 'absolute';
+  
+  //不加这两句会报错
   preview.style.top = '0px';
   preview.style.left = '0px';
+
   slideShow.appendChild(preview);
   insertAfter(slideShow,intro);
   

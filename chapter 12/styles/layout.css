@@ -79,8 +79,12 @@ article img{
 }
 #preview{
 	position: absolute;
-	top:0;
-	left:0;
 	border-width: 0;
 	outline-width: 0;
+}
+#imagegallery li{
+	display:inline;
+}
+td{
+	padding: .5em 3em;
 }
