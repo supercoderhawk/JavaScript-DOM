@@ -1,3 +1,135 @@
+function prepareForms(){
+  for (var i = 0; i < document.forms.length; i++) {
+    var thisForm = document.forms[i];
+    resetFields(thisForm);
+    thisForm.onsubmit = function(){
+      if(!validateForm(this)) return false;
+      var article = document.getElementsByTagName('article')[0];
+      if(submitFormWithAjax(this, article)) return false;
+      return true;
+    }
+  };
+}
+
+addLoadEvent(prepareForms);
+
+function submitFormWithAjax(whichForm, theTarget){
+  var request = getHTTPObject();
+  if(!request) {return false;}
+  displayAjaxLoading(theTarget);
+  var dataParts = [];
+  var element = null;
+  for (var i = 0; i < whichForm.elements.length; i++) {
+    element = whichForm.elements[i];
+    dataParts[i] = element.name + '=' + encodeURIComponent(element.value);
+  };
+  var data = dataParts.join('&');
+  request.open('POST', whichForm.getAttribute('action'), true);
+  request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+  request.onreadystatechange = function(){
+    if(request.readyState == 4){
+      if(request.status == 200 || request.status == 0){
+        var matches = request.responseText.match('/<article>([\s\S]+)<\/article>/');
+        if(matches.length > 0){
+          theTarget.innerHTML = matches[1];
+        }else{
+          theTarget.innerHTML = '<p>Oops, there was an error. Sorry.</p>'
+        }
+      }else{
+        theTarget.innerHTML = '<p>' + request.statusText + '<p>';
+      }
+    }
+  }
+  request.send(data);
+  return true;
+}
+
+function displayAjaxLoading(){
+  while(element.hasChildNodes()){
+    element.removeChild(element.lastChild);
+  }
+
+  var content = document.createElement('img');
+  content.setAttribute('src', 'images/loading.gif');
+  content.setAttribute('alt', 'Loading');
+  element.appendChild(content);
+}
+
+
+function getHTTPObject(){
+  if(typeof XMLHttpRequest == 'undefined'){
+    XMLHttpRequest = function(){
+      try{return new ActiveXObject("Msxml2.XMLHTTP.6.0");}
+        catch(e){}
+      try{return new ActiveXObject("Msxml2.XMLHTTP.3.0");}
+        catch(e){}
+      try{return new ActiveXObject("Msxml2.XMLHTTP");}
+        catch(e){}
+      return false;
+    }
+  }
+  return new XMLHttpRequest();
+}
+
+function validateForm(whichForm){
+  for (var i = 0; i < whichForm.elements.length; i++) {
+    var element = whichForm.elements[i];
+    if(element.required == 'required'){
+      if(!isFilled(element)){
+        alert('Please fill in the' + element.name + 'field.');
+        return false;
+      }
+    }
+    if(element.type == 'email'){
+      if(!isEmail(element)){
+        alert('The' + element.name + 'field must be a valid email address');
+        return false;
+      }
+    }
+  };
+  return true;
+}
+
+//验证表单元素是否非空
+function isFilled(field){
+  if(field.value.replace(' ', '') == 0) return false;
+  var placeholder = field.placeholder || field.getAttribute('placeholder');
+  return (field.value != placeholder);
+}
+
+//验证表单元素的值是否为电子邮件地址
+function isEmail(field){
+  return (field.value.indexOf('@') != -1 && field.value.indexOf('.') != -1);
+}
+
+function resetFields(whichForm){
+  if(!Modernizr.input.placeholder) return;
+  
+  for (var i = 0; i < whichForm.length; i++) {
+    var element = whichForm.elements[i];
+    if(element.type == 'submit') continue;
+    var check = element.placeholder || element.getAttribute('placeholder');
+    if(!check)  continue;
+    element.onfocus = function(){
+      var text = this.placeholder || this.getAttribute('placeholder');
+      if(this.value != null){
+        this.oldPlaceholder = text;
+        this.placeholder = '';
+        //this.className = '';
+        //this.value = '';
+      }
+    }
+    element.onblur = function(){
+      if(this.value == ''){
+       // this.className = 'placeholder';
+       // this.value = this.placeholder || this.getAttribute('placeholder');
+       this.placeholder = this.oldPlaceholder;
+      }
+    }
+    //element.onblur();
+  };
+}
+
 function displayAbbreviation(){
   if(!document.getElementsByTagName) return false;
   if(!document.createElement) return false;
