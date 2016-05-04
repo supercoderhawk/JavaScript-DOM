@@ -1,3 +1,76 @@
+function displayAbbreviation(){
+  if(!document.getElementsByTagName) return false;
+  if(!document.createElement) return false;
+  if(!document.createTextNode) return false;
+
+  var abbreviations = document.getElementsByTagName('abbr');
+  if(abbreviations.length < 1) return false;
+  var defs = new Array();
+  for (var i = 0; i < abbreviations.length; i++) {
+    currentAbbr = abbreviations[i];
+    if(currentAbbr.childNodes.length < 1) return false;
+    var defination = currentAbbr.getAttribute('title');
+    var key = currentAbbr.lastChild.nodeValue;
+    defs[key] = defination;
+  };
+
+  var dlist = document.createElement('dl');
+  for(key in defs){
+    var defination = defs[key];
+    var dtitle = document.createElement('dt');
+    var dtitleText = document.createTextNode(key);
+    dtitle.appendChild(dtitleText);
+    var ddesc = document.createElement('dd');
+    var ddescText = document.createTextNode(defination);
+    ddesc.appendChild(ddescText);
+    dlist.appendChild(dtitle);
+    dlist.appendChild(ddesc);
+  }
+  if(dlist.childNodes.length < 1) return false;
+  var header = document.createElement('h3');
+  var headerText = document.createTextNode("Abbreviations");
+  header.appendChild(headerText);
+  var articles = document.getElementsByTagName('article');
+  if(articles.length == 0) return false;
+  var container = articles[0];
+  container.appendChild(header);
+  container.appendChild(dlist);
+
+}
+
+addLoadEvent(displayAbbreviation);
+
+function highlightRows(){
+  if(!document.getElementsByTagName) return false;
+  var rows = document.getElementsByTagName('tr');
+  for (var i = 0; i < rows.length; i++) {
+    rows[i].oldClassName = rows[i].className;
+    rows[i].onmouseover = function(){
+      addClass(this, "highlight");
+    }
+    rows[i].onmouseout = function(){
+      this.className = this.oldClassName;
+    }
+  };
+}
+
+addLoadEvent(highlightRows);
+
+function stripeTables(){
+  if(!document.getElementsByTagName) return false;
+  var tables = document.getElementsByTagName('table');
+  for (var i = 0; i < tables.length; i++) {
+    var rows = tables[i].getElementsByTagName('tr');
+    for (var j = 0; j < rows.length; j++) {
+      if(j%2){
+        addClass(rows[j], "odd");
+      }
+    };
+  };
+}
+
+addLoadEvent(stripeTables);
+
 function prepareGallery(){
   if(!document.getElementsByTagName) return false;
   if(!document.getElementById) return false;
@@ -188,18 +261,6 @@ function moveElement(elementID, final_x, final_y, interval){
   elem.movementElement = setTimeout(repeat, interval);
 }
 
-//将函数添加到onload函数
-function addLoadEvent(func){
-  var oldOnload = window.onload;
-  if(typeof oldOnload != 'function'){
-    window.onload = func();
-  } else {
-    window.onload = function(){
-      oldOnload();
-      func();
-    }
-  }
-}
 //将函数添加到onload函数
 function addLoadEvent(func){
   var oldOnload = window.onload;
